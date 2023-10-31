@@ -42,6 +42,10 @@ namespace FizzBuzz.Services
         /// <exception cref="NotImplementedException"></exception>
         public string GetFizzBuzzPhrase(int max)
         {
+            if (max<= 0)
+            {
+                throw new ArgumentException(" max soit être supérieur ou égal à 1",nameof(max));
+            }
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i<= max; i++)
             {
