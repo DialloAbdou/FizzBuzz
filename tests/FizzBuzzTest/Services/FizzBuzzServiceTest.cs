@@ -1,4 +1,5 @@
 ﻿using FizzBuzz.Services;
+using FluentAssertions;
 using Xunit;
 
 namespace FizzBuzzTest.Services
@@ -17,6 +18,8 @@ namespace FizzBuzzTest.Services
             var expected = "Fizz";
             //Act
             var result = service.GetFizzBuzz(3);
+            // using fluenAssert
+            result.Should().Be(expected);
             //Assert
             Assert.Equal(expected, result);
         }
@@ -27,6 +30,9 @@ namespace FizzBuzzTest.Services
             //2. Act => Executer la methode ou l'unite business dont je teste
             var result = service.GetFizzBuzz(5);
             //3. Assert => je verifie suite à l'execution ma methode ou l'unite bussiness j'ai le resultat attendu
+            // using fluent
+            result.Should().NotBeEmpty();
+            result.Should().Contain("Buzz");
             Assert.Equal("Buzz", result);
         }
 
@@ -37,6 +43,8 @@ namespace FizzBuzzTest.Services
             //2. Act => Executer la methode ou l'unite business dont je teste
             var result = service.GetFizzBuzz(15);
             //3. Assert => je verifie suite à l'execution ma methode ou l'unite bussiness j'ai le resultat attendu
+            result.Should().NotBeEmpty();
+            result.Should().Contain("FizzBuzz");
             Assert.Equal("FizzBuzz", result);
         }
 
@@ -62,19 +70,20 @@ namespace FizzBuzzTest.Services
             //2. Act => Executer la methode ou l'unite business dont je teste
             var result = service.GetFizzBuzzPhrase(max);
             //3. Assert => je verifie suite à l'execution ma methode ou l'unite bussiness j'ai le resultat attendu
+            result.Should().Be(expectedData);
             Assert.Equal(expectedData, result);
         }
 
+        [Fact]
         public void GetFizzBuzzPhrase_should_ThrowArgumentException_When_Max_Is_lowerOrEqual_To_Zero()
         {
             // Arrange
-
             // Act
-            var except = Assert.Throws<ArgumentException>(() => service.GetFizzBuzzPhrase(-20));
-              
+            Action act =()=> service.GetFizzBuzzPhrase(-20);
+            act.Should().Throw<ArgumentException>();
+            //var except = Assert.Throws<ArgumentException>(() => service.GetFizzBuzzPhrase(-20));
             // Assert
-
-            Assert.Equal("max", except.ParamName);
+            //Assert.Equal("max", except.ParamName);
         }
 
     }
